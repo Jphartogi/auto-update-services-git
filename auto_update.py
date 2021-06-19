@@ -1,8 +1,13 @@
 from git import Repo
+from dotenv import load_dotenv
+import os
 
-REPO_PATH = "./test-repo"
+load_dotenv()
+REPO_PATH = os.getenv("REPO_PATH")
+
+
 def app_is_current(tagged_commits_only=False, branch_to_check=None):
-    local_repo = Repo(path="./test-repo")
+    local_repo = Repo(path=REPO_PATH)
     remote_repo = local_repo.remote()
     local_commit = local_repo.commit()
     if tagged_commits_only:
@@ -18,11 +23,11 @@ def app_is_current(tagged_commits_only=False, branch_to_check=None):
         return remote_commit.committed_datetime <= local_commit.committed_datetime 
 
 def get_current_tags():
-    repo = Repo(path="./test-repo")
+    repo = Repo(path=REPO_PATH)
     return next((tag for tag in repo.tags if tag.commit == repo.head.commit), None)
 
 def get_tag_info():
-    local_repo = Repo(path="./test-repo")
+    local_repo = Repo(path=REPO_PATH)
 
     # Fetch remote branches to ensure we are up to date
     for remote in local_repo.remotes:
