@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+message VersionCheckRequest {
+    string folder_location = 1;
+    int32 request_id = 2;
+    string request_token = 3;
+}
+
+message VersionCheckResponse {
+    string latest_version = 1;
+    string current_version = 2;
+    bool need_upgrade = 3;
+}
+
+service VersionCheckSrv {
+    rpc VersionCheck (VersionCheckRequest) returns (VersionCheckResponse);
+}
